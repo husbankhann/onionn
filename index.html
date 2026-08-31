@@ -437,70 +437,97 @@
         const formData = new FormData();
 
         formData.append("image", file);
-
-        try {
-
-  const response = await fetch(
-    "https://onionn.vercel.app/api/lots/1/assess",
-    {
-        method: "POST",
-        body: formData
-    }
-);
-
-            const result = await response.json();
-
-            const onion = result.raw_result?.onions?.[0];
-
-            const defects = onion?.flags?.length || 0;
-
-            document.getElementById("defectCount").textContent =
-                defects;
-
-            document.getElementById("defectStatus").textContent =
-                defects === 0
-                    ? "None"
-                    : defects + " detected";
-
-            document.getElementById("defectMessage").textContent =
-                defects === 0
-                    ? "No defects detected"
-                    : defects + " defect indicator(s) detected";
-
-            if (onion) {
-
-                document.getElementById("sizeValue").textContent =
-                    Number(
-                        onion.equivalent_diameter_mm
-                    ).toFixed(1) + " mm";
-            }
-
-            const score = Number(
-               result.raw_result.lot_summary.average_composite_score
-            );
-
-            document.getElementById("qualityScore").textContent =
-                score + "%";
-
-            document.getElementById("qualityProgress").style.width =
-                score + "%";
-
-            document.getElementById("gradeCircle").textContent =
-                result.raw_result.lot_summary.lot_grade;
-
-            document.getElementById("gradeMessage").textContent =
-               result.raw_result.lot_summary.lot_grade === "Reject"
-                    ? "Quality needs improvement"
-                    : "Premium Quality Onion";
-
-        } catch (error) {
-
-            console.error(
-                "Backend connection failed:",
-                error
-            );
-
+try {
+    const response = await fetch(
+        "https://onionn.vercel.app/api/lots/1/assess",
+        {
+            method: "POST",
+            body: formData
         }
+    );
+
+    console.log("Backend status:", response.status);
+
+    const result = await response.json();
+
+    console.log("Backend result:", result);
+
+    if (!response.ok) {
+        throw new Error(result.error || "Backend request failed");
+    }
+
+    const onion = result.raw_result?.onions?.[0];
+
+    if (!onion) {
+        throw new Error("No onion data received from backend");
+    }
+
+    // -------------------------
+    // DEFECTS
+    // -------------------------
+    const defects = onion.flags?.length || 0;
+
+    document.getElementById("defectCount").textContent =
+        defects;
+
+    document.getElementById("defectStatus").textContent =
+        defects === 0
+            ? "None"
+            : defects + " detected";
+
+    document.getElementById("defectMessage").textContent =
+        defects === 0
+            ? "No defects detected"
+            : defects + " defect indicator(s) detected";
+
+    // -------------------------
+    // SIZE
+    // -------------------------
+    document.getElementById("sizeValue").textContent =
+        Number(onion.equivalent_diameter_mm).toFixed(1) + " mm";
+
+    // -------------------------
+    // QUALITY SCORE
+    // -------------------------
+    const score = Number(
+        result.raw_result?.lot_summary?.average_composite_score
+    );
+
+    if (Number.isNaN(score)) {
+        throw new Error("Invalid quality score received");
+    }
+
+    document.getElementById("qualityScore").textContent =
+        score.toFixed(2) + "%";
+
+    document.getElementById("qualityProgress").style.width =
+        score + "%";
+
+    // -------------------------
+    // GRADE
+    // -------------------------
+    const grade =
+        result.raw_result?.lot_summary?.lot_grade;
+
+    document.getElementById("gradeCircle").textContent =
+        grade;
+
+    document.getElementById("gradeMessage").textContent =
+        grade === "Reject"
+            ? "Quality needs improvement"
+            : "Premium Quality Onion";
+
+} catch (error) {
+
+    console.error(
+        "Backend connection failed:",
+        error
+    );
+
+    alert(
+        "Assessment failed: " + error.message
+    );
+}
 
     });
 

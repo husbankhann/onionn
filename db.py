@@ -14,7 +14,7 @@ import os
 from contextlib import contextmanager
 from datetime import datetime, timezone
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "..", "onion_grading.db")
+DB_PATH = "/tmp/onion_grading.db"
 
 
 def get_connection():

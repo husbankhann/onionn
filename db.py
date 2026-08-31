@@ -297,3 +297,5 @@ def get_dispute(dispute_id):
     with db_session() as conn:
         row = conn.execute("SELECT * FROM disputes WHERE id=?", (dispute_id,)).fetchone()
         return dict(row) if row else None
+# Initialize database when module is loaded
+init_db()

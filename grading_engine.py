@@ -182,7 +182,7 @@ class OnionGradingEngine:
         dark_ratio = float(np.sum(dark_mask)) / total_px
 
         # Sprouting: green hue range (35-85 in OpenCV's 0-179 H scale)
-       green_mask = (h > 40) & (h < 80) & (s > 80) & (v > 70) & onion_pixels_mask
+        green_mask = (h > 35) & (h < 85) & (s > 40) & onion_pixels_mask
         sprout_ratio = float(np.sum(green_mask)) / total_px
 
         # Mold / dry patch: localized saturation drop vs. median saturation

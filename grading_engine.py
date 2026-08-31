@@ -272,7 +272,7 @@ class OnionGradingEngine:
             color_uniformity = self._measure_color_uniformity(image_bgr, mask)
 
             shape_score = max(0.0, min(roundness * 100, 100.0))
-            defect_score = max(0.0, 100.0 - defect_ratio * 300)  # heavily penalize defects
+            defect_score = max(0.0, 100.0 - defect_ratio * 120)  # heavily penalize defects
             size_band = self._size_band(diameter_mm)
             size_conformity = self._size_conformity_score(diameter_mm, target_size_band)
 

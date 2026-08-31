@@ -27,8 +27,7 @@ from PIL import Image
 from grading_engine import OnionGradingEngine, DEFAULT_CONFIG
 import db
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
+UPLOAD_DIR = "/tmp/uploads"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 app = Flask(__name__)

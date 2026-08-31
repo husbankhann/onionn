@@ -440,13 +440,13 @@
 
         try {
 
-            const response = await fetch(
-                "http://127.0.0.1:5000/api/lots/1/assess",
-                {
-                    method: "POST",
-                    body: formData
-                }
-            );
+  const response = await fetch(
+    "https://onionn.onrender.com/api/lots/1/assess",
+    {
+        method: "POST",
+        body: formData
+    }
+);
 
             const result = await response.json();
 

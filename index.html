@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnionIQ - Quality Assessment</title>
+
+```
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+        background: #f5f7f2;
+        color: #202820;
+    }
+
+    header {
+        background: #173d2b;
+        color: white;
+        padding: 18px 7%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .logo {
+        font-size: 25px;
+        font-weight: 800;
+    }
+
+    .logo span {
+        color: #b7df72;
+    }
+
+    nav a {
+        color: white;
+        text-decoration: none;
+        margin-left: 25px;
+        font-size: 14px;
+    }
+
+    .hero {
+        padding: 60px 7%;
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 40px;
+        align-items: center;
+    }
+
+    .hero h1 {
+        font-size: 52px;
+        line-height: 1.05;
+        margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+        color: #568b3d;
+    }
+
+    .hero p {
+        color: #687368;
+        font-size: 17px;
+        line-height: 1.6;
+        max-width: 550px;
+    }
+
+    .upload-card {
+        background: white;
+        padding: 30px;
+        border-radius: 22px;
+        box-shadow: 0 15px 40px #1c3d2015;
+    }
+
+    .upload-box {
+        border: 2px dashed #8db57a;
+        border-radius: 18px;
+        padding: 45px 20px;
+        text-align: center;
+        background: #f8fbf6;
+    }
+
+    .upload-box .icon {
+        font-size: 55px;
+    }
+
+    .upload-box h3 {
+        margin: 15px 0 8px;
+    }
+
+    .upload-box p {
+        color: #7b8579;
+        margin-bottom: 20px;
+    }
+
+    input[type="file"] {
+        display: none;
+    }
+
+    .upload-btn {
+        display: inline-block;
+        background: #568b3d;
+        color: white;
+        padding: 12px 25px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+
+    .dashboard {
+        padding: 20px 7% 60px;
+    }
+
+    .section-title {
+        margin-bottom: 25px;
+    }
+
+    .section-title h2 {
+        font-size: 30px;
+    }
+
+    .section-title p {
+        color: #7a8377;
+        margin-top: 6px;
+    }
+
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+    }
+
+    .card {
+        background: white;
+        padding: 24px;
+        border-radius: 18px;
+        box-shadow: 0 8px 25px #1c3d2010;
+    }
+
+    .card h4 {
+        color: #788078;
+        font-size: 14px;
+    }
+
+    .value {
+        font-size: 32px;
+        font-weight: 800;
+        margin: 10px 0;
+    }
+
+    .good {
+        color: #4f913d;
+    }
+
+    .warning {
+        color: #d68b25;
+    }
+
+    .bad {
+        color: #d34d45;
+    }
+
+    .progress {
+        height: 8px;
+        background: #e8eee5;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .progress div {
+        height: 100%;
+        background: #69a34c;
+        border-radius: 10px;
+    }
+
+    .result {
+        margin-top: 25px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .grade {
+        text-align: center;
+        padding: 35px;
+    }
+
+    .grade-circle {
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        background: #e4f2d8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 15px auto;
+        font-size: 55px;
+        font-weight: 900;
+        color: #4f913d;
+    }
+
+    .defects li {
+        list-style: none;
+        padding: 14px 0;
+        border-bottom: 1px solid #edf0eb;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    footer {
+        background: #173d2b;
+        color: white;
+        text-align: center;
+        padding: 25px;
+    }
+
+    @media (max-width: 800px) {
+        .hero {
+            grid-template-columns: 1fr;
+        }
+
+        .stats {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .result {
+            grid-template-columns: 1fr;
+        }
+
+        .hero h1 {
+            font-size: 40px;
+        }
+    }
+
+    @media (max-width: 500px) {
+        .stats {
+            grid-template-columns: 1fr;
+        }
+
+        nav {
+            display: none;
+        }
+    }
+</style>
+```
+
+</head>
+
+<body>
+
+```
+<header>
+    <div class="logo">🧅 Onion<span>IQ</span></div>
+
+    <nav>
+        <a href="#">Dashboard</a>
+        <a href="#">Assessment</a>
+        <a href="#">Reports</a>
+    </nav>
+</header>
+
+<section class="hero">
+
+    <div>
+        <h1>
+            Smart <span>Onion</span><br>
+            Quality Assessment
+        </h1>
+
+        <p>
+            Assess onion quality, detect visible defects and automatically
+            classify produce into quality grades using intelligent image analysis.
+        </p>
+    </div>
+
+    <div class="upload-card">
+        <div class="upload-box">
+
+            <div class="icon">🧅</div>
+
+            <h3>Upload Onion Image</h3>
+
+            <p>Upload a clear image for quality assessment</p>
+
+            <label class="upload-btn">
+                Choose Image
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                >
+
+                <p
+                    id="fileName"
+                    style="margin-top:15px; color:#568b3d;"
+                ></p>
+            </label>
+
+        </div>
+    </div>
+
+</section>
+
+<section class="dashboard">
+
+    <div class="section-title">
+        <h2>Quality Assessment</h2>
+        <p>Sample analysis results</p>
+    </div>
+
+    <div class="stats">
+
+        <div class="card">
+            <h4>Quality Score</h4>
+
+            <div class="value good" id="qualityScore">
+                92%
+            </div>
+
+            <div class="progress">
+                <div id="qualityProgress" style="width:92%"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h4>Size</h4>
+
+            <div class="value" id="sizeValue">
+                --
+            </div>
+
+            <p class="good">✓ Optimal size</p>
+        </div>
+
+        <div class="card">
+            <h4>Freshness</h4>
+
+            <div class="value good">
+                Excellent
+            </div>
+
+            <p>High freshness detected</p>
+        </div>
+
+        <div class="card">
+            <h4>Defects</h4>
+
+            <div class="value warning" id="defectCount">
+                2
+            </div>
+
+            <p id="defectMessage">
+                --
+            </p>
+        </div>
+
+    </div>
+
+    <div class="result">
+
+        <div class="card grade">
+
+            <h3>Final Quality Grade</h3>
+
+            <div class="grade-circle" id="gradeCircle">
+                A
+            </div>
+
+            <p class="good" id="gradeMessage">
+                Premium Quality Onion
+            </p>
+
+        </div>
+
+        <div class="card defects">
+
+            <h3>Detected Characteristics</h3>
+
+            <ul>
+
+                <li>
+                    <span>🟢 Color</span>
+                    <strong class="good">Good</strong>
+                </li>
+
+                <li>
+                    <span>🟢 Shape</span>
+                    <strong class="good">Uniform</strong>
+                </li>
+
+                <li>
+                    <span>🟢 Firmness</span>
+                    <strong class="good">High</strong>
+                </li>
+
+                <li>
+                    <span>🟡 Surface Defect</span>
+                    <strong class="warning" id="defectStatus">--</strong>
+                </li>
+
+                <li>
+                    <span>🟢 Spoilage</span>
+                    <strong class="good">Not Detected</strong>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    🧅 OnionIQ — Smart Agriculture • Quality Assessment & Grading
+</footer>
+
+<script>
+
+    const fileInput = document.getElementById("imageInput");
+
+    fileInput.addEventListener("change", async () => {
+
+        const file = fileInput.files[0];
+
+        if (!file) return;
+
+        document.getElementById("fileName").textContent =
+            "Selected: " + file.name;
+
+        const formData = new FormData();
+
+        formData.append("image", file);
+
+        try {
+
+            const response = await fetch(
+                "http://127.0.0.1:5000/api/lots/1/assess",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+            const result = await response.json();
+
+            const onion = result.raw_result?.onions?.[0];
+
+            const defects = onion?.flags?.length || 0;
+
+            document.getElementById("defectCount").textContent =
+                defects;
+
+            document.getElementById("defectStatus").textContent =
+                defects === 0
+                    ? "None"
+                    : defects + " detected";
+
+            document.getElementById("defectMessage").textContent =
+                defects === 0
+                    ? "No defects detected"
+                    : defects + " defect indicator(s) detected";
+
+            if (onion) {
+
+                document.getElementById("sizeValue").textContent =
+                    Number(
+                        onion.equivalent_diameter_mm
+                    ).toFixed(1) + " mm";
+            }
+
+            const score = Number(
+                result.average_composite_score
+            );
+
+            document.getElementById("qualityScore").textContent =
+                score + "%";
+
+            document.getElementById("qualityProgress").style.width =
+                score + "%";
+
+            document.getElementById("gradeCircle").textContent =
+                result.lot_grade;
+
+            document.getElementById("gradeMessage").textContent =
+                result.lot_grade === "Reject"
+                    ? "Quality needs improvement"
+                    : "Premium Quality Onion";
+
+        } catch (error) {
+
+            console.error(
+                "Backend connection failed:",
+                error
+            );
+
+        }
+
+    });
+
+</script>
+```
+
+</body>
+</html>

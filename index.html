@@ -476,7 +476,7 @@
             }
 
             const score = Number(
-                result.average_composite_score
+               result.raw_result.lot_summary.average_composite_score
             );
 
             document.getElementById("qualityScore").textContent =
@@ -486,10 +486,10 @@
                 score + "%";
 
             document.getElementById("gradeCircle").textContent =
-                result.lot_grade;
+                result.raw_result.lot_summary.lot_grade;
 
             document.getElementById("gradeMessage").textContent =
-                result.lot_grade === "Reject"
+               result.raw_result.lot_summary.lot_grade === "Reject"
                     ? "Quality needs improvement"
                     : "Premium Quality Onion";
 

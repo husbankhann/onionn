@@ -33,6 +33,19 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 app = Flask(__name__)
 CORS(app)
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16 MB max upload
+def ensure_bootstrap():
+    """Creates the DB tables and an initial default config on first run."""
+    db.init_db()
+    if db.get_active_config() is None:
+        db.save_config(
+            DEFAULT_CONFIG["config_version"],
+            DEFAULT_CONFIG,
+            activate=True
+        )
+
+
+ensure_bootstrap()
+
 
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "webp", "bmp"}
 
@@ -298,5 +311,4 @@ def center_comparison():
 
 
 if __name__ == "__main__":
-    ensure_bootstrap()
     app.run(host="0.0.0.0", port=5000, debug=True)
